@@ -6,7 +6,7 @@ import loginService from "./services/login";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [message, setErrorMessage] = useState("");
+  const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -42,9 +42,9 @@ const App = () => {
       setUsername("");
       setPassword("");
     } catch (exception) {
-      setErrorMessage("Wrong Credentials");
+      setMessage(exception.response.data.error);
       setTimeout(() => {
-        setErrorMessage(null);
+        setMessage(null);
       }, 5000);
     }
   };
@@ -80,17 +80,31 @@ const App = () => {
 
   const handleBlogcreate = async (event) => {
     event.preventDefault();
-    const newBlog = {
-      title,
-      author,
-      url,
-    };
+    try {
+      const newBlog = {
+        title,
+        author,
+        url,
+      };
 
-    const createdBlog = await blogService.create(newBlog);
-    setBlogs(blogs.concat(createdBlog));
-    setTitle("");
-    setAuthor("");
-    setUrl("");
+      const createdBlog = await blogService.create(newBlog);
+      setBlogs(blogs.concat(createdBlog));
+      setTitle("");
+      setAuthor("");
+      setUrl("");
+      setMessage(
+        `a new blog ${createdBlog.title} added by ${createdBlog.author}`
+      );
+      console.log(blogs, "i am blog");
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+    } catch (exception) {
+      setMessage(exception.response.data.error);
+    }
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
   };
 
   const blogForm = () => {
