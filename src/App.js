@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -51,27 +52,29 @@ const App = () => {
   };
 
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <Togglable buttonLabel="show me login">
+      <form onSubmit={handleLogin}>
+        <div>
+          username
+          <input
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password
+          <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button type="submit">login</button>
+      </form>
+    </Togglable>
   );
 
   const logOut = () => {
@@ -113,41 +116,43 @@ const App = () => {
 
   const blogForm = () => {
     return (
-      <form onSubmit={handleBlogcreate}>
-        <div>
-          title:{""}
-          <input
-            type="text"
-            name="title"
-            value={title}
-            onChange={(event) => {
-              setTitle(event.target.value);
-            }}
-          />
-        </div>
-        <div>
-          author:{""}
-          <input
-            type="text"
-            name="author"
-            value={author}
-            onChange={(event) => {
-              setAuthor(event.target.value);
-            }}
-          />
-        </div>
-        <div>
-          url:{""}
-          <input
-            type="text"
-            name="url"
-            value={url}
-            onChange={(event) => {
-              setUrl(event.target.value);
-            }}
-          />
-        </div>
-      </form>
+      <Togglable buttonLabel="new note">
+        <form onSubmit={handleBlogcreate}>
+          <div>
+            title:{""}
+            <input
+              type="text"
+              name="title"
+              value={title}
+              onChange={(event) => {
+                setTitle(event.target.value);
+              }}
+            />
+          </div>
+          <div>
+            author:{""}
+            <input
+              type="text"
+              name="author"
+              value={author}
+              onChange={(event) => {
+                setAuthor(event.target.value);
+              }}
+            />
+          </div>
+          <div>
+            url:{""}
+            <input
+              type="text"
+              name="url"
+              value={url}
+              onChange={(event) => {
+                setUrl(event.target.value);
+              }}
+            />
+          </div>
+        </form>
+      </Togglable>
     );
   };
 
