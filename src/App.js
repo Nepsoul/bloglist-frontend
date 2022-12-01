@@ -112,7 +112,7 @@ const App = () => {
 
   const blogForm = () => {
     return (
-      <Togglable buttonLabel="new blog" ref={noteFormRef}>
+      <Togglable buttonLabel="create new blog" ref={noteFormRef}>
         <BlogForm createBlog={handleBlogCreate} />
       </Togglable>
     );
