@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
-import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import LoginForm from "./components/LoginForm";
+import Notification from "./components/Notification";
 import BlogForm from "./components/BlogForm";
 import loginService from "./services/login";
 
@@ -72,12 +72,12 @@ const App = () => {
     setUser(null);
   };
 
-  const handleBlogCreate = (blogObject) => {
-    blogService.create(blogObject).then((returnedBlog) => {
-      setBlogs(blogs.concat(returnedBlog));
-      noteFormRef.current.togglevisibility();
-    });
+  const handleBlogCreate = async (blogObject) => {
+    const returnedBlog = await blogService.create(blogObject);
+    setBlogs(blogs.concat(returnedBlog));
+    noteFormRef.current.togglevisibility();
   };
+
   // const handleBlogcreate = async (event) => {
   //   event.preventDefault();
   //   try {
@@ -133,10 +133,10 @@ const App = () => {
           <span>{user.name} logged-in </span>
           <button onClick={logOut}>log out</button>
 
-          <h2>create new</h2>
+          <h2>create new blog</h2>
           {blogForm()}
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} setBlogs={setBlogs} blogs={blogs} />
           ))}
         </>
       )}
