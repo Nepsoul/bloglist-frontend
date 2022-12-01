@@ -14,9 +14,9 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState({ message: null, type: null });
 
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  // const [title, setTitle] = useState("");
+  // const [author, setAuthor] = useState("");
+  // const [url, setUrl] = useState("");
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -70,56 +70,47 @@ const App = () => {
     setUser(null);
   };
 
-  const handleBlogcreate = async (event) => {
-    event.preventDefault();
-    try {
-      const newBlog = {
-        title,
-        author,
-        url,
-      };
-
-      const createdBlog = await blogService.create(newBlog);
-      setBlogs(blogs.concat(createdBlog));
-      setTitle("");
-      setAuthor("");
-      setUrl("");
-      setMessage({
-        message: `a new blog ${createdBlog.title} added by ${createdBlog.author}`,
-        type: "update",
-      });
-      console.log(blogs, "i am blog");
-      setTimeout(() => {
-        setMessage({ message: null, type: null });
-        setMessage(null);
-      }, 5000);
-    } catch (exception) {
-      setMessage({ message: exception.response.data.error, type: "error" });
-    }
-    setTimeout(() => {
-      setMessage({ message: null, type: null });
-      setMessage(null);
-    }, 5000);
+  const handleBlogCreate = (blogObject) => {
+    blogService.create(blogObject).then((returnedBlog) => {
+      setBlogs(blogs.concat(returnedBlog));
+    });
   };
+  // const handleBlogcreate = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     const newBlog = {
+  //       title,
+  //       author,
+  //       url,
+  //     };
+
+  //     const createdBlog = await blogService.create(newBlog);
+  //     setBlogs(blogs.concat(createdBlog));
+  //     setTitle("");
+  //     setAuthor("");
+  //     setUrl("");
+  //     setMessage({
+  //       message: `a new blog ${createdBlog.title} added by ${createdBlog.author}`,
+  //       type: "update",
+  //     });
+  //     console.log(blogs, "i am blog");
+  //     setTimeout(() => {
+  //       setMessage({ message: null, type: null });
+  //       setMessage(null);
+  //     }, 5000);
+  //   } catch (exception) {
+  //     setMessage({ message: exception.response.data.error, type: "error" });
+  //   }
+  //   setTimeout(() => {
+  //     setMessage({ message: null, type: null });
+  //     setMessage(null);
+  //   }, 5000);
+  // };
 
   const blogForm = () => {
     return (
       <Togglable buttonLabel="new blog">
-        <BlogForm
-          title={title}
-          author={author}
-          url={url}
-          handleTitleChange={(event) => {
-            setTitle(event.target.value);
-          }}
-          handleAuthorChange={(event) => {
-            setAuthor(event.target.value);
-          }}
-          handleUrlChange={(event) => {
-            setUrl(event.target.value);
-          }}
-          createBlog={handleBlogcreate}
-        />
+        <BlogForm createBlog={handleBlogCreate} />
       </Togglable>
     );
   };
