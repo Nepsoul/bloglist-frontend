@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, setBlogs, blogs }) => {
+const Blog = ({ blog, setBlogs, blogs, setMessage }) => {
   const [display, setDisplay] = useState(false);
 
   const blogStyle = {
@@ -34,7 +34,15 @@ const Blog = ({ blog, setBlogs, blogs }) => {
 
   const deletedBlog = async (id) => {
     await blogService.remove(id);
+
     setBlogs(blogs.filter((blog) => blog.id !== id));
+    setMessage({
+      message: `${blog.title} blog is deleted by ${blog.author}`,
+      type: "error",
+    });
+    setTimeout(() => {
+      setMessage({ message: null, type: null });
+    }, 5000);
   };
 
   return (
@@ -58,7 +66,11 @@ const Blog = ({ blog, setBlogs, blogs }) => {
           <div>{blog.author}</div>
           <div>
             <button
-              style={{ backgroudColor: "red" }}
+              style={{
+                color: "brown",
+                backgroundColor: "lightpink",
+                font: " bold",
+              }}
               onClick={() => {
                 const del = window.confirm(
                   `Remove blog ${blog.title} by ${blog.author}`

@@ -75,9 +75,10 @@ const App = () => {
   const handleBlogCreate = async (blogObject) => {
     const returnedBlog = await blogService.create(blogObject);
     setBlogs(blogs.concat(returnedBlog));
-    noteFormRef.current.togglevisibility();
+    //console.dir(noteFormRef.current(), "noteform");
+    noteFormRef.current();
+    console.log(noteFormRef.current(), "returnedblog");
   };
-
   // const handleBlogcreate = async (event) => {
   //   event.preventDefault();
   //   try {
@@ -96,6 +97,7 @@ const App = () => {
   //       message: `a new blog ${createdBlog.title} added by ${createdBlog.author}`,
   //       type: "update",
   //     });
+  //     console.log("message");
   //     console.log(blogs, "i am blog");
   //     setTimeout(() => {
   //       setMessage({ message: null, type: null });
@@ -113,7 +115,7 @@ const App = () => {
   const blogForm = () => {
     return (
       <Togglable buttonLabel="create new blog" ref={noteFormRef}>
-        <BlogForm createBlog={handleBlogCreate} />
+        <BlogForm createBlog={handleBlogCreate} setMessage={setMessage} />
       </Togglable>
     );
   };
@@ -137,7 +139,13 @@ const App = () => {
           <h2>create new blog</h2>
           {blogForm()}
           {sortedBlogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} setBlogs={setBlogs} blogs={blogs} />
+            <Blog
+              key={blog.id}
+              blog={blog}
+              setBlogs={setBlogs}
+              blogs={blogs}
+              setMessage={setMessage}
+            />
           ))}
         </>
       )}

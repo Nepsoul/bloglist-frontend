@@ -1,10 +1,12 @@
 import { useState } from "react";
-const BlogForm = ({ createBlog }) => {
+const BlogForm = ({ createBlog, setMessage }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
-  const handleBlogCreate = () => {
+  const handleBlogCreate = (event) => {
+    event.preventDefault();
+
     createBlog({
       title,
       author,
@@ -14,6 +16,15 @@ const BlogForm = ({ createBlog }) => {
     setTitle("");
     setAuthor("");
     setUrl("");
+
+    setMessage({
+      message: `a new blog ${title} added by ${author}`,
+      type: "update",
+    });
+    setTimeout(() => {
+      setMessage({ message: null, type: null });
+      setMessage(null);
+    }, 5000);
   };
 
   return (
