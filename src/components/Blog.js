@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, setBlogs, blogs, setMessage }) => {
+const Blog = ({ blog, setBlogs, blogs, setMessage, user }) => {
   const [display, setDisplay] = useState(false);
 
   const blogStyle = {
@@ -33,9 +33,18 @@ const Blog = ({ blog, setBlogs, blogs, setMessage }) => {
   };
 
   const deletedBlog = async (id) => {
-    await blogService.remove(id);
-
-    setBlogs(blogs.filter((blog) => blog.id !== id));
+    // await blogService.remove(id);
+    const del = blogs.find((blog) => blog.id === id);
+    //setBlogs(blogs.filter((blog) => blog.id !== id));
+    console.log(del, "itis de");
+    console.log(blog.id, "blog id from del file");
+    const notifyMessage = window.confirm(
+      `Remove blog ${del.title} by ${del.author}`
+    );
+    if (notifyMessage) {
+      await blogService.remove(id);
+      setBlogs(blogs.filter((blog) => blog.id !== id));
+    }
     setMessage({
       message: `${blog.title} blog is deleted by ${blog.author}`,
       type: "error",
@@ -65,25 +74,20 @@ const Blog = ({ blog, setBlogs, blogs, setMessage }) => {
           </div>
           <div>{blog.author}</div>
           <div>
-            <button
-              style={{
-                color: "brown",
-                backgroundColor: "lightpink",
-                font: " bold",
-              }}
-              onClick={() => {
-                const del = window.confirm(
-                  `Remove blog ${blog.title} by ${blog.author}`
-                );
-                if (del === false) {
-                  return blogs;
-                } else {
+            {blog.user.id === user.id || blog.user ? (
+              <button
+                style={{
+                  color: "brown",
+                  backgroundColor: "lightpink",
+                  font: " bold",
+                }}
+                onClick={() => {
                   deletedBlog(blog.id);
-                }
-              }}
-            >
-              remove
-            </button>
+                }}
+              >
+                remove
+              </button>
+            ) : null}
           </div>
         </div>
       )}

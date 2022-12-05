@@ -41,6 +41,7 @@ const App = () => {
         username,
         password,
       });
+      console.log(user, "user of app");
       blogService.setToken(user.token);
       setUser(user);
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
@@ -77,7 +78,7 @@ const App = () => {
     setBlogs(blogs.concat(returnedBlog));
     //console.dir(noteFormRef.current(), "noteform");
     noteFormRef.current();
-    console.log(noteFormRef.current(), "returnedblog");
+    //console.log(noteFormRef.current(), "returnedblog");
   };
   // const handleBlogcreate = async (event) => {
   //   event.preventDefault();
@@ -144,6 +145,7 @@ const App = () => {
               blog={blog}
               setBlogs={setBlogs}
               blogs={blogs}
+              user={user}
               setMessage={setMessage}
             />
           ))}
