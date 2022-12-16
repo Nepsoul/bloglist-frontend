@@ -57,8 +57,9 @@ const Blog = ({ blog, setBlogs, blogs, setMessage, user }) => {
   return (
     <div style={blogStyle}>
       {!display ? (
-        <div>
+        <div className="blog">
           {blog.title}
+          {blog.author}
           <button onClick={showToggle}>view</button>
         </div>
       ) : (
