@@ -1,8 +1,11 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, setBlogs, blogs, setMessage, user }) => {
+const Blog = ({ blog, setBlogs, blogs, setMessage, user, updateLikes }) => {
   const [display, setDisplay] = useState(false);
+
+  // console.log(blog, "blog");
+  // console.log(blogs, "blogsss");
 
   const blogStyle = {
     paddingTop: 10,
@@ -16,21 +19,9 @@ const Blog = ({ blog, setBlogs, blogs, setMessage, user }) => {
     setDisplay(!display);
   };
 
-  const raisedLike = async (id, addedlikes) => {
-    const updatedBlog = blogs.find((blogs) => blogs.id === id);
-    const newBlog = {
-      likes: addedlikes,
-      author: updatedBlog.author,
-      title: updatedBlog.title,
-      url: updatedBlog.url,
-    };
-    const response = await blogService.update(id, newBlog);
-    setBlogs(blogs.map((blogs) => (blogs.id === id ? response : blogs)));
-  };
-
-  const increasedLikes = (id) => {
-    raisedLike(id, blog.likes + 1);
-  };
+  // const increasedLikes = (id) => {
+  //   updateLikes(id, blog.likes + 1);
+  // };
 
   const deletedBlog = async (id) => {
     // await blogService.remove(id);
@@ -58,8 +49,7 @@ const Blog = ({ blog, setBlogs, blogs, setMessage, user }) => {
     <div style={blogStyle}>
       {!display ? (
         <div className="blog">
-          {blog.title}
-          {blog.author}
+          {blog.title} {blog.author}
           <button className={"view"} onClick={showToggle}>
             view
           </button>
@@ -73,7 +63,9 @@ const Blog = ({ blog, setBlogs, blogs, setMessage, user }) => {
           <div className={"url"}>{blog.url}</div>
           <div className={"likes"}>
             likes: {blog.likes}{" "}
-            <button onClick={() => increasedLikes(blog.id)}>like</button>
+            <button id="likeButton" onClick={() => updateLikes(blog.id)}>
+              like
+            </button>
           </div>
           <div>{blog.author}</div>
           <div>

@@ -24,6 +24,8 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
+  console.log(blogs, "blogs of data");
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
@@ -54,6 +56,22 @@ const App = () => {
         setMessage(null);
       }, 5000);
     }
+  };
+
+  const raisedLike = async (id) => {
+    const updatedBlog = blogs.find((blogs) => blogs.id === id);
+    // const newBlog = {
+    //   likes: newLike,
+    //   author: updatedBlog.author,
+    //   title: updatedBlog.title,
+    //   url: updatedBlog.url,
+    // };
+    // console.log(newBlog, "newBLog");
+
+    const newBlog = { ...updatedBlog, likes: updatedBlog.likes + 1 };
+    const response = await blogService.update(id, newBlog);
+
+    setBlogs(blogs.map((blogs) => (blogs.id === id ? response : blogs)));
   };
 
   const loginForm = () => (
@@ -147,6 +165,7 @@ const App = () => {
               blogs={blogs}
               user={user}
               setMessage={setMessage}
+              updateLikes={raisedLike}
             />
           ))}
         </>
