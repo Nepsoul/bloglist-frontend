@@ -4,6 +4,7 @@ const BlogForm = ({ createBlog, setMessage }) => {
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
+  //console.log(setMessage);
   const handleBlogCreate = (event) => {
     event.preventDefault();
 
@@ -36,6 +37,7 @@ const BlogForm = ({ createBlog, setMessage }) => {
             type="text"
             name="title"
             value={title}
+            placeholder="title"
             onChange={(event) => setTitle(event.target.value)}
           />
         </div>
@@ -45,6 +47,7 @@ const BlogForm = ({ createBlog, setMessage }) => {
             type="text"
             name="author"
             value={author}
+            placeholder="author"
             onChange={(event) => setAuthor(event.target.value)}
           />
         </div>
@@ -54,10 +57,13 @@ const BlogForm = ({ createBlog, setMessage }) => {
             type="text"
             name="url"
             value={url}
+            placeholder="url"
             onChange={(event) => setUrl(event.target.value)}
           />
         </div>
-        <button type="submit">create</button>
+        <button id="add" type="submit">
+          create
+        </button>
       </form>
     </div>
   );
