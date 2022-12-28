@@ -155,7 +155,7 @@ const App = () => {
           <span>{user.name} logged-in </span>
           <button onClick={logOut}>log out</button>
 
-          <h2>create new blog</h2>
+          <h2>new blog</h2>
           {blogForm()}
           {sortedBlogs.map((blog) => (
             <Blog

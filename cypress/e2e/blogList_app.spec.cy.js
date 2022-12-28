@@ -14,4 +14,22 @@ describe("Blog app", function () {
 
     cy.contains("root logged-in");
   });
+
+  describe("when logged-in", function () {
+    beforeEach(function () {
+      cy.contains("login").click();
+      cy.get("input:first").type("groot");
+      cy.get("input:last").type("password");
+      cy.get("#login-button").click();
+    });
+
+    it("a new blog can be created", function () {
+      cy.contains("create new blog").click();
+      cy.get("#title").type("a new blog created by cypress");
+      cy.get("#author").type("namuna");
+      cy.get("#url").type("test.com");
+      cy.get("#add").click();
+      cy.contains("a new blog created by cypress namuna");
+    });
+  });
 });
