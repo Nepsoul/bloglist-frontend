@@ -6,13 +6,25 @@ describe("Blog app", function () {
   it("Login form is shown", function () {
     cy.contains("login").click();
   });
-  it("user can login", function () {
-    cy.contains("login").click();
-    cy.get("#username").type("groot");
-    cy.get("#password").type("password");
-    cy.get("#login-button").click();
 
-    cy.contains("root logged-in");
+  describe("login", function () {
+    it("successful user login with correct credential", function () {
+      cy.contains("login").click();
+      cy.get("#username").type("groot");
+      cy.get("#password").type("password");
+      cy.get("#login-button").click();
+
+      cy.contains("root logged-in");
+    });
+
+    it("unsuccessful user login with wrong credential", function () {
+      cy.contains("login").click();
+      cy.get("#username").type("groot");
+      cy.get("#password").type("groot");
+      cy.get("#login-button").click();
+
+      cy.contains("invalid username or password");
+    });
   });
 
   describe("when logged-in", function () {
