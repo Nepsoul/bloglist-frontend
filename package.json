@@ -17,6 +17,7 @@
     "cypress": "^12.2.0",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-jest": "^27.1.6",
     "eslint-plugin-prettier": "^4.2.1",
     "jest-watch-typeahead": "^0.6.5",
