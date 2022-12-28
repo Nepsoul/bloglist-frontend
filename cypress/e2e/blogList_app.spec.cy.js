@@ -8,8 +8,8 @@ describe("Blog app", function () {
   });
   it("user can login", function () {
     cy.contains("login").click();
-    cy.get("input:first").type("groot");
-    cy.get("input:last").type("password");
+    cy.get("#username").type("groot");
+    cy.get("#password").type("password");
     cy.get("#login-button").click();
 
     cy.contains("root logged-in");
