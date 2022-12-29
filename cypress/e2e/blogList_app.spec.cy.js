@@ -25,7 +25,7 @@ describe("Blog app", function () {
       cy.contains("root logged-in");
     });
 
-    it.only("unsuccessful user login with wrong credential", function () {
+    it("unsuccessful user login with wrong credential", function () {
       cy.contains("login").click();
       cy.get("#username").type("groot");
       cy.get("#password").type("groot");
@@ -41,21 +41,33 @@ describe("Blog app", function () {
     });
   });
 
-  // describe("when logged-in", function () {
-  //   beforeEach(function () {
-  //     cy.contains("login").click();
-  //     cy.get("input:first").type("groot");
-  //     cy.get("input:last").type("password");
-  //     cy.get("#login-button").click();
-  //   });
+  describe("when logged-in", function () {
+    beforeEach(function () {
+      cy.login({ username: "groot", password: "password" });
+    });
 
-  //   it("a new blog can be created", function () {
-  //     cy.contains("create new blog").click();
-  //     cy.get("#title").type("a new blog created by cypress");
-  //     cy.get("#author").type("namuna");
-  //     cy.get("#url").type("test.com");
-  //     cy.get("#add").click();
-  //     cy.contains("a new blog created by cypress namuna");
-  //   });
-  // });
+    it("a new blog can be created", function () {
+      cy.contains("create new blog").click();
+      cy.get("#title").type("a new blog created by cypress");
+      cy.get("#author").type("namuna");
+      cy.get("#url").type("test.com");
+      cy.get("#add").click();
+      cy.contains("a new blog created by cypress namuna");
+    });
+
+    it("user can like blog", function () {
+      cy.contains("create new blog").click();
+      cy.get("#title").type("a new blog created by cypress");
+      cy.get("#author").type("namuna");
+      cy.get("#url").type("test.com");
+      cy.get("#add").click();
+      cy.contains("a new blog created by cypress namuna");
+
+      cy.get(".view").click();
+      cy.get(".likes").click();
+      cy.contains(0);
+      cy.get("#likeButton").click();
+      cy.contains(1);
+    });
+  });
 });
