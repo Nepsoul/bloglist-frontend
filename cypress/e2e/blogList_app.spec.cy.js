@@ -6,8 +6,14 @@ describe("Blog app", function () {
       username: "groot",
       password: "password",
     };
+    const user2 = {
+      name: "test",
+      username: "test",
+      password: "test",
+    };
 
     cy.request("POST", "http://localhost:3003/api/users", user);
+    cy.request("POST", "http://localhost:3003/api/users", user2);
     cy.visit("http://localhost:3000");
   });
 
@@ -55,7 +61,7 @@ describe("Blog app", function () {
       cy.contains("a new blog created by cypress namuna");
     });
 
-    it("user can like blog", function () {
+    it("user can like a blog", function () {
       cy.contains("create new blog").click();
       cy.get("#title").type("a new blog created by cypress");
       cy.get("#author").type("namuna");
@@ -65,9 +71,42 @@ describe("Blog app", function () {
 
       cy.get(".view").click();
       cy.get(".likes").click();
-      cy.contains(0);
+      //cy.contains(0);
       cy.get("#likeButton").click();
       cy.contains(1);
+    });
+
+    it("user can delete a blog", function () {
+      cy.contains("create new blog").click();
+      cy.get("#title").type("testing for remove blog");
+      cy.get("#author").type("namuna");
+      cy.get("#url").type("test.com");
+      cy.get("#add").click();
+      cy.contains("testing for remove blog namuna");
+
+      cy.get(".view").click();
+      cy.get("#remove-button").click();
+      cy.contains("#title").should("not.exist");
+    });
+
+    it.only("other user can not delete a blog", function () {
+      cy.contains("create new blog").click();
+      cy.get("#title").type("testing for remove blog");
+      cy.get("#author").type("namuna");
+      cy.get("#url").type("test.com");
+      cy.get("#add").click();
+      cy.contains("testing for remove blog namuna");
+      cy.contains("log out").click();
+
+      cy.contains("login").click();
+      cy.get("#username").type("test");
+      cy.get("#password").type("test");
+      cy.get("#login-button").click();
+      cy.contains("test logged-in");
+
+      cy.get(".view").click();
+      cy.get("#remove-button").click();
+      cy.contains("testing for remove blog");
     });
   });
 });

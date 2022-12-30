@@ -71,6 +71,7 @@ const Blog = ({ blog, setBlogs, blogs, setMessage, user, updateLikes }) => {
           <div>
             {blog.user.id === user.id || blog.user ? (
               <button
+                id="remove-button"
                 style={{
                   color: "brown",
                   backgroundColor: "lightpink",
