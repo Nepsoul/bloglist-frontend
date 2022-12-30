@@ -53,12 +53,17 @@ describe("Blog app", function () {
     });
 
     it("a new blog can be created", function () {
-      cy.contains("create new blog").click();
-      cy.get("#title").type("a new blog created by cypress");
-      cy.get("#author").type("namuna");
-      cy.get("#url").type("test.com");
-      cy.get("#add").click();
-      cy.contains("a new blog created by cypress namuna");
+      cy.createBlog({
+        title: "a new blog created by cypress",
+        author: "namuna",
+        url: "test.com",
+      });
+      //cy.contains("create new blog").click();
+      // cy.get("#title").type("a new blog created by cypress");
+      // cy.get("#author").type("namuna");
+      // cy.get("#url").type("test.com");
+      // cy.get("#add").click();
+      //cy.contains("a new blog created by cypress namuna");
     });
 
     it("user can like a blog", function () {
@@ -89,7 +94,7 @@ describe("Blog app", function () {
       cy.contains("#title").should("not.exist");
     });
 
-    it.only("other user can not delete a blog", function () {
+    it("other user can not delete a blog", function () {
       cy.contains("create new blog").click();
       cy.get("#title").type("testing for remove blog");
       cy.get("#author").type("namuna");
@@ -107,6 +112,42 @@ describe("Blog app", function () {
       cy.get(".view").click();
       cy.get("#remove-button").click();
       cy.contains("testing for remove blog");
+    });
+
+    it.only("placing the blogs in ascending order according to likes", function () {
+      cy.createBlog({ title: "mobile", author: "jack", url: "url.com" });
+      cy.contains("mobile jack").contains("view").click();
+      // cy.get(".view").click();
+      cy.get(".likes").click();
+      cy.get("#likeButton").click();
+      cy.get(".likes").click();
+      cy.get("#likeButton").click();
+      cy.get(".likes").click();
+      cy.get("#likeButton").click();
+
+      cy.createBlog({ title: "silly boy", author: "amir", url: "ktm.com" });
+      cy.contains("silly boy amir").contains("view").click();
+      cy.get(".likes").click();
+      cy.get("#likeButton").click();
+
+      cy.get(".likes").click();
+      cy.get("#likeButton").click();
+
+      cy.createBlog({ title: "hiking", author: "me", url: "test.com" });
+      cy.contains("hiking me").contains("view").click();
+      cy.get(".likes").click();
+      cy.get("#likeButton").click();
+      cy.get(".likes").click();
+      cy.get("#likeButton").click();
+      cy.get(".likes").click();
+      cy.get("#likeButton").click();
+      cy.get(".likes").click();
+      cy.get("#likeButton").click();
+      cy.contains("hide").click();
+
+      cy.get(".blog").eq(0).should("contain", "hiking me");
+      cy.get(".blog").eq(1).should("contain", "mobile jack");
+      cy.get(".blog").eq(2).should("contain", "silly boy amir");
     });
   });
 });
