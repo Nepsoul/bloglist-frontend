@@ -60,8 +60,8 @@ const Blog = ({ blog, setBlogs, blogs, setMessage, user, updateLikes }) => {
             {blog.title}
             <button onClick={showToggle}>hide</button>
           </div>
-          <div className={"url"}>{blog.url}</div>
-          <div className={"likes"}>
+          <div className="url">{blog.url}</div>
+          <div className="likes">
             likes: {blog.likes}{" "}
             <button id="likeButton" onClick={() => updateLikes(blog.id)}>
               like

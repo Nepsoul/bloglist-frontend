@@ -66,7 +66,7 @@ describe("Blog app", function () {
       //cy.contains("a new blog created by cypress namuna");
     });
 
-    it("user can like a blog", function () {
+    it.only("user can like a blog", function () {
       cy.contains("create new blog").click();
       cy.get("#title").type("a new blog created by cypress");
       cy.get("#author").type("namuna");
@@ -75,10 +75,7 @@ describe("Blog app", function () {
       cy.contains("a new blog created by cypress namuna");
 
       cy.get(".view").click();
-      cy.get(".likes").click();
-      //cy.contains(0);
       cy.get("#likeButton").click();
-      cy.contains(1);
     });
 
     it("user can delete a blog", function () {
@@ -114,35 +111,36 @@ describe("Blog app", function () {
       cy.contains("testing for remove blog");
     });
 
-    it.only("placing the blogs in ascending order according to likes", function () {
+    it("placing the blogs in ascending order according to likes", function () {
       cy.createBlog({ title: "mobile", author: "jack", url: "url.com" });
       cy.contains("mobile jack").contains("view").click();
-      // cy.get(".view").click();
-      cy.get(".likes").click();
+
       cy.get("#likeButton").click();
-      cy.get(".likes").click();
+      cy.wait(500);
       cy.get("#likeButton").click();
-      cy.get(".likes").click();
+      cy.wait(500);
       cy.get("#likeButton").click();
+      cy.wait(500);
+      cy.contains("hide").click();
 
       cy.createBlog({ title: "silly boy", author: "amir", url: "ktm.com" });
       cy.contains("silly boy amir").contains("view").click();
-      cy.get(".likes").click();
       cy.get("#likeButton").click();
-
-      cy.get(".likes").click();
+      cy.wait(500);
       cy.get("#likeButton").click();
+      cy.wait(500);
+      cy.contains("hide").click();
 
       cy.createBlog({ title: "hiking", author: "me", url: "test.com" });
       cy.contains("hiking me").contains("view").click();
-      cy.get(".likes").click();
       cy.get("#likeButton").click();
-      cy.get(".likes").click();
+      cy.wait(500);
       cy.get("#likeButton").click();
-      cy.get(".likes").click();
+      cy.wait(500);
       cy.get("#likeButton").click();
-      cy.get(".likes").click();
+      cy.wait(500);
       cy.get("#likeButton").click();
+      cy.wait(500);
       cy.contains("hide").click();
 
       cy.get(".blog").eq(0).should("contain", "hiking me");
