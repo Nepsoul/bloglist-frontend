@@ -1,9 +1,12 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
+import { setNotification } from "../reducers/notificationReducer";
+import { useDispatch } from "react-redux";
 
-const Blog = ({ blog, setBlogs, blogs, setMessage, user, updateLikes }) => {
+const Blog = ({ blog, setBlogs, blogs, user, updateLikes }) => {
   const [display, setDisplay] = useState(false);
 
+  const dispatch = useDispatch();
   // console.log(blog, "blog");
   // console.log(blogs, "blogsss");
 
@@ -36,12 +39,14 @@ const Blog = ({ blog, setBlogs, blogs, setMessage, user, updateLikes }) => {
       await blogService.remove(id);
       setBlogs(blogs.filter((blog) => blog.id !== id));
     }
-    setMessage({
-      message: `${blog.title} blog is deleted by ${blog.author}`,
-      type: "error",
-    });
+    dispatch(
+      setNotification({
+        message: `${blog.title} blog is deleted by ${blog.author}`,
+        type: "error",
+      })
+    );
     setTimeout(() => {
-      setMessage({ message: null, type: null });
+      dispatch(setNotification({ message: null, type: null }));
     }, 5000);
   };
 
