@@ -6,18 +6,15 @@ import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import BlogForm from "./components/BlogForm";
 import loginService from "./services/login";
-import { useDispatch } from "react-redux";
-import { setNotification } from "./reducers/notificationReducer";
 
 const App = () => {
   const noteFormRef = useRef();
 
-  const dispatch = useDispatch();
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  //const [message, setMessage] = useState({ message: null, type: null });
+  const [message, setMessage] = useState({ message: null, type: null });
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -49,22 +46,11 @@ const App = () => {
       setUsername("");
       setPassword("");
     } catch (exception) {
-      // setMessage({ message: exception.response.data.error, type: "error" });
-      dispatch(
-        setNotification({
-          message: exception.response.data.error,
-          type: "error",
-        })
-      );
+      setMessage({ message: exception.response.data.error, type: "error" });
+
       setTimeout(() => {
-        // setMessage({ message: null, type: null });
-        dispatch(
-          setNotification({
-            message: null,
-            type: null,
-          })
-        );
-        //setMessage(null);
+        setMessage({ message: null, type: null });
+        setMessage(null);
       }, 5000);
     }
   };
@@ -106,8 +92,7 @@ const App = () => {
   const blogForm = () => {
     return (
       <Togglable buttonLabel="create new blog" ref={noteFormRef}>
-        {/* <BlogForm createBlog={handleBlogCreate} setMessage={setMessage} /> */}
-        <BlogForm createBlog={handleBlogCreate} />
+        <BlogForm createBlog={handleBlogCreate} setMessage={setMessage} />
       </Togglable>
     );
   };
@@ -117,8 +102,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
 
-      {/* <Notification message={message?.message} type={message?.type} /> */}
-      <Notification />
+      <Notification message={message?.message} type={message?.type} />
       {user === null ? (
         <>
           <h2>log into application</h2>
@@ -138,7 +122,7 @@ const App = () => {
               setBlogs={setBlogs}
               blogs={blogs}
               user={user}
-              // setMessage={setMessage}
+              setMessage={setMessage}
               updateLikes={raisedLike}
             />
           ))}
